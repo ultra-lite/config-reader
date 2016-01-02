@@ -1,5 +1,5 @@
 <?php
-namespace UltraLite\ConfigReader\Exception;
+namespace UltraLite\ConfigReader;
 
 interface ConfigReaderException extends \Throwable
 {

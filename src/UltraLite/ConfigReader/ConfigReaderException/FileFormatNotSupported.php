@@ -1,5 +1,7 @@
 <?php
-namespace UltraLite\ConfigReader\Exception;
+namespace UltraLite\ConfigReader\ConfigReaderException;
+
+use UltraLite\ConfigReader\ConfigReaderException;
 
 class FileFormatNotSupported extends \InvalidArgumentException implements ConfigReaderException
 {

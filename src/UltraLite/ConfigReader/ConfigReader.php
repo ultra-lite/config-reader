@@ -1,10 +1,10 @@
 <?php
 namespace UltraLite\ConfigReader;
 
-use UltraLite\ConfigReader\Exception\ConfigParsingThrewError;
-use UltraLite\ConfigReader\Exception\ConfigReaderException;
-use UltraLite\ConfigReader\Exception\FileFormatNotSupported;
-use UltraLite\ConfigReader\Exception\FileNotReadable;
+use UltraLite\ConfigReader\ConfigReaderException;
+use UltraLite\ConfigReader\ConfigReaderException\ConfigParsingThrewError;
+use UltraLite\ConfigReader\ConfigReaderException\FileFormatNotSupported;
+use UltraLite\ConfigReader\ConfigReaderException\FileNotReadable;
 
 class ConfigReader
 {
