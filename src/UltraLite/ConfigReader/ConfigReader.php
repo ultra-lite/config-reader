@@ -1,6 +1,7 @@
 <?php
 namespace UltraLite\ConfigReader;
 
+use UltraLite\ConfigReader\Exception\ConfigParsingThrewError;
 use UltraLite\ConfigReader\Exception\ConfigReaderException;
 use UltraLite\ConfigReader\Exception\FileFormatNotSupported;
 use UltraLite\ConfigReader\Exception\FileNotReadable;
@@ -12,22 +13,16 @@ class ConfigReader
      */
     public function getConfigArray(string $pathToConfig): array
     {
-        $this->verifyIsReadable($pathToConfig);
+        $this->assertIsReadable($pathToConfig);
         $extension = $this->getExtension($pathToConfig);
-        return $this->getContentsAsArray($pathToConfig, $extension);
-    }
 
-    private function verifyIsReadable(string $path)
-    {
-        if (!is_readable($path)) {
-            throw FileNotReadable::constructFromPath($path);
+        try {
+            return $this->getContentsAsArray($pathToConfig, $extension);
+        } catch (ConfigReaderException $configReaderException) {
+            throw $configReaderException;
+        } catch (\Throwable $throwable) {
+            throw ConfigParsingThrewError::constructFromThrowable($throwable);
         }
-    }
-
-    private function getExtension($path): string
-    {
-        $pathInfo = pathinfo($path);
-        return $pathInfo['extension'];
     }
 
     private function getContentsAsArray(string $path, string $fileExtension): array
@@ -42,5 +37,18 @@ class ConfigReader
             default:
                 throw FileFormatNotSupported::constructFromPath($path);
         }
+    }
+
+    private function assertIsReadable(string $path)
+    {
+        if (!is_readable($path)) {
+            throw FileNotReadable::constructFromPath($path);
+        }
+    }
+
+    private function getExtension($path): string
+    {
+        $pathInfo = pathinfo($path);
+        return $pathInfo['extension'];
     }
 }

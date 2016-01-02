@@ -38,6 +38,18 @@ class IntegrationTest extends TestCase
         $this->configReader->getConfigArray($this->pathToFixtures . 'unsupported-format.yml');
     }
 
+    public function testItThrowsAnExceptionWhenParsingInvalidJson()
+    {
+        $this->setExpectedException('\UltraLite\ConfigReader\Exception\ConfigParsingThrewError');
+        $this->configReader->getConfigArray($this->pathToFixtures . 'invalid.json');
+    }
+
+    public function testItThrowsAnExceptionWhenParsingInvalidIni()
+    {
+        $this->setExpectedException('\UltraLite\ConfigReader\Exception\ConfigParsingThrewError');
+        $this->configReader->getConfigArray($this->pathToFixtures . 'invalid.ini');
+    }
+
     /**
      * @dataProvider provideExampleFiles
      */
