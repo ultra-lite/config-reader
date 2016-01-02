@@ -12,22 +12,35 @@ class ConfigReader
      */
     public function getConfigArray(string $pathToConfig): array
     {
-        if (!is_readable($pathToConfig)) {
-            throw FileNotReadable::constructFromPath($pathToConfig);
+        $this->verifyIsReadable($pathToConfig);
+        $extension = $this->getExtension($pathToConfig);
+        return $this->getContentsAsArray($pathToConfig, $extension);
+    }
+
+    private function verifyIsReadable(string $path)
+    {
+        if (!is_readable($path)) {
+            throw FileNotReadable::constructFromPath($path);
         }
+    }
 
-        $pathInfo = pathinfo($pathToConfig);
-        $extension = $pathInfo['extension'];
+    private function getExtension($path): string
+    {
+        $pathInfo = pathinfo($path);
+        return $pathInfo['extension'];
+    }
 
-        switch ($extension) {
+    private function getContentsAsArray(string $path, string $fileExtension): array
+    {
+        switch ($fileExtension) {
             case 'php':
-                return require $pathToConfig;
+                return require $path;
             case 'json':
-                return json_decode(file_get_contents($pathToConfig), true);
+                return json_decode(file_get_contents($path), true);
             case 'ini':
-                return parse_ini_file($pathToConfig);
+                return parse_ini_file($path);
             default:
-                throw FileFormatNotSupported::constructFromPath($pathToConfig);
+                throw FileFormatNotSupported::constructFromPath($path);
         }
     }
 }
