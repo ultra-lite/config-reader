@@ -1,25 +1,33 @@
 <?php
 namespace UltraLite\ConfigReader;
 
-use UltraLite\ConfigReader\ConfigFile\Factory as ConfigFileFactory;
 use UltraLite\ConfigReader\Exception\ConfigReaderException;
+use UltraLite\ConfigReader\Exception\FileFormatNotSupported;
+use UltraLite\ConfigReader\Exception\FileNotReadable;
 
 class ConfigReader
 {
-    private $configFileFactory;
-
-    public function __construct(ConfigFileFactory $configFileFactory = null)
-    {
-        $this->configFileFactory = $configFileFactory ?: new ConfigFileFactory();
-    }
-
     /**
      * @throws ConfigReaderException
      */
     public function getConfigArray(string $pathToConfig): array
     {
-        $path = new Path($pathToConfig);
-        $configFile = $this->configFileFactory->buildConfigFileObject($path);
-        return $configFile->toArray();
+        if (!is_readable($pathToConfig)) {
+            throw FileNotReadable::constructFromPath($pathToConfig);
+        }
+
+        $pathInfo = pathinfo($pathToConfig);
+        $extension = $pathInfo['extension'];
+
+        switch ($extension) {
+            case 'php':
+                return require $pathToConfig;
+            case 'json':
+                return json_decode(file_get_contents($pathToConfig), true);
+            case 'ini':
+                return parse_ini_file($pathToConfig);
+            default:
+                throw FileFormatNotSupported::constructFromPath($pathToConfig);
+        }
     }
 }
