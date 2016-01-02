@@ -28,7 +28,7 @@ class Path
 
     public function fileExtension(): string
     {
-        $pathInfo = pathinfo($this->path);
+        $pathInfo = pathinfo($this->stringRepresentation);
         return $pathInfo['extension'];
     }
 

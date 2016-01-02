@@ -15,8 +15,7 @@ class IniFile implements ConfigFile
 
     public function toArray(): array
     {
-        $contents = file_get_contents($this->path->__toString());
-        $contentsArray = parse_ini_file($contents);
+        $contentsArray = parse_ini_file($this->path->__toString());
         return $contentsArray;
     }
 }
