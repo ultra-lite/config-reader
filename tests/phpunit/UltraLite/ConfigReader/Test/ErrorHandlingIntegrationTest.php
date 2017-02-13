@@ -1,8 +1,11 @@
 <?php
 namespace UltraLite\ConfigReader\Test;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use UltraLite\ConfigReader\ConfigReader;
+use UltraLite\ConfigReader\ConfigReaderException\ConfigParsingThrewError;
+use UltraLite\ConfigReader\ConfigReaderException\FileFormatNotSupported;
+use UltraLite\ConfigReader\ConfigReaderException\FileNotReadable;
 
 class ErrorHandlingIntegrationTest extends TestCase
 {
@@ -22,25 +25,25 @@ class ErrorHandlingIntegrationTest extends TestCase
 
     public function testItThrowsAnExceptionWhenFileIsNotReadable()
     {
-        $this->setExpectedException('\UltraLite\ConfigReader\ConfigReaderException\FileNotReadable');
+        $this->expectException(FileNotReadable::class);
         $this->configReader->getConfigArray(FIXTURE_FOLDER . 'unreadable.json');
     }
 
     public function testItThrowsAnExceptionWhenFileFormatNotRecognised()
     {
-        $this->setExpectedException('\UltraLite\ConfigReader\ConfigReaderException\FileFormatNotSupported');
+        $this->expectException(FileFormatNotSupported::class);
         $this->configReader->getConfigArray(FIXTURE_FOLDER . 'unsupported-format.yml');
     }
 
     public function testItThrowsAnExceptionWhenParsingInvalidJson()
     {
-        $this->setExpectedException('\UltraLite\ConfigReader\ConfigReaderException\ConfigParsingThrewError');
+        $this->expectException(ConfigParsingThrewError::class);
         $this->configReader->getConfigArray(FIXTURE_FOLDER . 'invalid.json');
     }
 
     public function testItThrowsAnExceptionWhenParsingInvalidIni()
     {
-        $this->setExpectedException('\UltraLite\ConfigReader\ConfigReaderException\ConfigParsingThrewError');
+        $this->expectException(ConfigParsingThrewError::class);
         $this->configReader->getConfigArray(FIXTURE_FOLDER . 'invalid.ini');
     }
 }

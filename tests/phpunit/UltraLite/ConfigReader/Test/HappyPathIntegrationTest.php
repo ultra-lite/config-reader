@@ -1,7 +1,7 @@
 <?php
 namespace UltraLite\ConfigReader\Test;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use UltraLite\ConfigReader\ConfigReader;
 
 class HappyPathIntegrationTest extends TestCase
