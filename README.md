@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/ultra-lite/config-reader.svg?branch=master)](https://travis-ci.org/ultra-lite/config-reader)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ultra-lite/config-reader/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ultra-lite/config-reader/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/ultra-lite/config-parser/v/stable)](https://packagist.org/packages/ultra-lite/config-parser)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 # ![logo](https://avatars1.githubusercontent.com/u/16309098?v=3&s=100) Ultra-Lite Config Reader
 
