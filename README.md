@@ -1,9 +1,7 @@
 [![Build Status](https://travis-ci.org/ultra-lite/config-reader.svg?branch=master)](https://travis-ci.org/ultra-lite/config-reader)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ultra-lite/config-reader/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ultra-lite/config-reader/?branch=master)
 
-![logo](https://avatars1.githubusercontent.com/u/16309098?v=3&s=100)
-
-# Ultra-Lite Config Reader
+# ![logo](https://avatars1.githubusercontent.com/u/16309098?v=3&s=100) Ultra-Lite Config Reader
 
 An ultra-lightweight config file parser.
 
