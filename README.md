@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/ultra-lite/config-reader.svg?branch=master)](https://travis-ci.org/ultra-lite/config-reader)
 
+![logo](https://avatars1.githubusercontent.com/u/16309098?v=3&s=100)
+
 # Ultra-Lite Config Reader
 
 An ultra-lightweight config file parser.
