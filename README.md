@@ -2,7 +2,7 @@
 
 # Ultra-Lite Config Reader
 
-An ultra-lightweight DI container, filling a Pimple-shaped gap in a Container-Interop world.
+An ultra-lightweight config file parser.
 
 ## Usage
 
