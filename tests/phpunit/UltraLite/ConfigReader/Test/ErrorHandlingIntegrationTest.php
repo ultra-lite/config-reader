@@ -3,6 +3,7 @@ namespace UltraLite\ConfigReader\Test;
 
 use PHPUnit\Framework\TestCase;
 use UltraLite\ConfigReader\ConfigReader;
+use UltraLite\ConfigReader\ConfigReaderException\ConfigFileUnparsable;
 use UltraLite\ConfigReader\ConfigReaderException\ConfigParsingThrewError;
 use UltraLite\ConfigReader\ConfigReaderException\FileFormatNotSupported;
 use UltraLite\ConfigReader\ConfigReaderException\FileNotReadable;
@@ -37,13 +38,13 @@ class ErrorHandlingIntegrationTest extends TestCase
 
     public function testItThrowsAnExceptionWhenParsingInvalidJson()
     {
-        $this->expectException(ConfigParsingThrewError::class);
+        $this->expectException(ConfigFileUnparsable::class);
         $this->configReader->getConfigArray(FIXTURE_FOLDER . 'invalid.json');
     }
 
     public function testItThrowsAnExceptionWhenParsingInvalidIni()
     {
-        $this->expectException(ConfigParsingThrewError::class);
+        $this->expectException(ConfigFileUnparsable::class);
         $this->configReader->getConfigArray(FIXTURE_FOLDER . 'invalid.ini');
     }
 }

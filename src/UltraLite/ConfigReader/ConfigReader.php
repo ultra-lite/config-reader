@@ -1,41 +1,47 @@
 <?php
 namespace UltraLite\ConfigReader;
 
-use UltraLite\ConfigReader\ConfigReaderException\ConfigParsingThrewError;
 use UltraLite\ConfigReader\ConfigReaderException\FileFormatNotSupported;
 use UltraLite\ConfigReader\ConfigReaderException\FileNotReadable;
+use UltraLite\ConfigReader\FileParser\IniFileParser;
+use UltraLite\ConfigReader\FileParser\JsonFileParser;
+use UltraLite\ConfigReader\FileParser\PhpArrayFileParser;
 
 class ConfigReader
 {
+    /** @var FileParser[] */
+    private $fileParsers;
+
+    public function __construct(array $fileParsers = null)
+    {
+        $this->fileParsers = $fileParsers ?: [new IniFileParser(), new JsonFileParser(), new PhpArrayFileParser()];
+    }
+
+    public function addFileParser(FileParser $fileParser)
+    {
+        $this->fileParsers[] = $fileParser;
+    }
+
     /**
      * @throws ConfigReaderException
      */
     public function getConfigArray(string $pathToConfig): array
     {
         $this->assertIsReadable($pathToConfig);
-        $extension = $this->getExtension($pathToConfig);
-
-        try {
-            return $this->getContentsAsArray($pathToConfig, $extension);
-        } catch (ConfigReaderException $configReaderException) {
-            throw $configReaderException;
-        } catch (\Throwable $throwable) {
-            throw ConfigParsingThrewError::constructFromThrowable($throwable);
-        }
+        return $this->getContentsAsArray($pathToConfig);
     }
 
-    private function getContentsAsArray(string $path, string $fileExtension): array
+    private function getContentsAsArray(string $path): array
     {
-        switch ($fileExtension) {
-            case 'php':
-                return require $path;
-            case 'json':
-                return json_decode(file_get_contents($path), true);
-            case 'ini':
-                return parse_ini_file($path);
-            default:
-                throw FileFormatNotSupported::constructFromPath($path);
+        $fileExtension = pathinfo($path)['extension'];
+
+        foreach ($this->fileParsers as $fileParser) {
+            if ($fileParser->supportsFileExtension($fileExtension)) {
+                return $fileParser->getFileContentsAsArray($path);
+            }
         }
+
+        throw FileFormatNotSupported::constructFromPath($path);
     }
 
     private function assertIsReadable(string $path)
@@ -43,11 +49,5 @@ class ConfigReader
         if (!is_readable($path)) {
             throw FileNotReadable::constructFromPath($path);
         }
-    }
-
-    private function getExtension($path): string
-    {
-        $pathInfo = pathinfo($path);
-        return $pathInfo['extension'];
     }
 }

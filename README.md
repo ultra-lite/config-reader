@@ -8,7 +8,7 @@ An ultra-lightweight DI container, filling a Pimple-shaped gap in a Container-In
 
 ```php
 $configReader = new \UltraLite\ConfigReader\ConfigReader;
-$array = $configReader->getConfigArray('/path/to/config/file');
+$array = $configReader->getConfigArray('/path/to/file.json');
 ```
 
 ## Error Handling
@@ -18,3 +18,11 @@ If there is a problem, it (only) throws an ```\UltraLite\ConfigReader\Exception\
 ## Supported File Types
 
 ```.json```, ```.ini``` and ```.php``` 'return array' files are supported.
+To be part of the UltraLite project, it is quite lightweight, but it can be extended to support other file types.  Just
+come up with your own implementation of ```\UltraLite\ConfigReader\FileParser```:
+
+```php
+$customFileParser = new MyXmlFileParser();
+$configReader->addFileParser($customFileParser);
+$array = $configReader->getConfigArray('/path/to/file.xml');
+```
